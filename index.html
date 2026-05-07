@@ -10,6 +10,7 @@
     --bg: #1a1008; --card: #251808; --card2: #2e1f0d;
     --accent: #e8a045; --text: #f0e0c8; --muted: #9a7a5a;
     --green: #6dbf82; --border: #3d2a14; --red: #e06060;
+    --purple: #8a50cc; --purple-dim: #3a1f5a; --purple-border: #5a3a80;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -22,19 +23,58 @@
   .subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 24px; }
   .section-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-bottom: 16px; }
+
+  /* Rows */
   .row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-  .row:last-child { margin-bottom: 0; }
-  .row label { font-size: 0.82rem; color: var(--muted); width: 110px; flex-shrink: 0; }
+  .row:last-of-type { margin-bottom: 0; }
+  .row label { font-size: 0.82rem; color: var(--muted); width: 120px; flex-shrink: 0; }
   .row input[type=range] { flex: 1; accent-color: var(--accent); height: 4px; }
   .row .val { font-size: 0.82rem; color: var(--accent); width: 56px; text-align: right; font-weight: 500; }
+
+  /* Flavor rows — purple tint */
+  .row.flavor-row label { color: #c8a0f0; }
+  .row.flavor-row input[type=range] { accent-color: var(--purple); }
+  .row.flavor-row .val { color: #c8a0f0; }
+  .row.flavor-row .btn-remove-row {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 0.9rem; padding: 0 2px;
+    transition: color 0.15s; line-height: 1;
+  }
+  .row.flavor-row .btn-remove-row:hover { color: var(--red); }
+
+  .divider { border: none; border-top: 1px dashed var(--border); margin: 12px 0; }
+
+  /* Add flavor button inline */
+  .btn-add-inline {
+    background: none; border: 1px dashed var(--purple-border);
+    border-radius: 8px; color: #c8a0f0;
+    font-family: 'DM Sans', sans-serif; font-size: 0.75rem;
+    padding: 5px 10px; cursor: pointer; transition: all 0.15s;
+    margin-top: 10px; display: inline-block;
+  }
+  .btn-add-inline:hover { background: var(--purple-dim); border-style: solid; }
+
+  /* Preset chips */
+  .preset-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .preset-chip {
+    background: var(--card2); border: 1px dashed var(--purple-border);
+    border-radius: 20px; padding: 3px 9px;
+    font-size: 0.7rem; color: #c8a0f0; cursor: pointer; transition: all 0.15s;
+  }
+  .preset-chip:hover { background: var(--purple-dim); border-style: solid; }
+
+  /* Tabs */
   .tab-row { display: flex; gap: 8px; margin-bottom: 18px; }
   .tab { flex: 1; padding: 9px 0; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; cursor: pointer; text-align: center; transition: all 0.2s; }
   .tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+
+  /* Results */
   .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
   .result-box { background: var(--card2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 12px; text-align: center; }
   .result-box .r-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 4px; }
   .result-box .r-val { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent); }
   .result-box .r-sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+
   .price-band { border-radius: 12px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); }
   .price-band.budget { background: #1a2a1d; border-color: #2e4a33; }
   .price-band.recommended { background: #2a1f0a; border-color: #5a3a10; }
@@ -48,104 +88,85 @@
   .price-band .pb-margin { font-size: 0.75rem; margin-top: 6px; }
   .price-band.budget .pb-margin { color: #8dd49a; }
   .price-band.recommended .pb-margin { color: #dba04a; }
+
   .cost-breakdown { font-size: 0.8rem; }
   .cost-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
   .cost-row:last-child { border-bottom: none; }
   .cost-row.total { color: var(--accent); font-weight: 600; font-size: 0.85rem; }
   .cost-row.flavor-cost { color: #c8a0f0; }
 
-  /* FLAVORS */
-  .flavors-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .btn-add-flavor { background: var(--accent); color: var(--bg); border: none; border-radius: 8px; padding: 6px 12px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
-  .btn-add-flavor:hover { opacity: 0.85; }
-  .flavor-list { display: flex; flex-direction: column; gap: 10px; }
-  .flavor-item { background: var(--card2); border: 1px solid #4a2e6a; border-radius: 12px; padding: 12px 14px; position: relative; animation: fadeIn 0.2s ease; }
-  @keyframes fadeIn { from { opacity:0; transform: translateY(-4px); } to { opacity:1; transform: none; } }
-  .flavor-item.inactive { opacity: 0.5; border-color: var(--border); }
-  .flavor-top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-  .flavor-toggle { width: 32px; height: 18px; background: var(--border); border-radius: 9px; position: relative; cursor: pointer; flex-shrink: 0; transition: background 0.2s; border: none; }
-  .flavor-toggle.on { background: #8a50cc; }
-  .flavor-toggle::after { content: ''; position: absolute; width: 12px; height: 12px; background: #fff; border-radius: 50%; top: 3px; left: 3px; transition: left 0.2s; }
-  .flavor-toggle.on::after { left: 17px; }
-  .flavor-name-input { flex: 1; background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; padding: 2px 4px; outline: none; }
-  .flavor-name-input:focus { border-bottom-color: #8a50cc; }
-  .flavor-name-input::placeholder { color: var(--muted); }
-  .btn-remove-flavor { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; padding: 2px 4px; line-height: 1; transition: color 0.2s; }
-  .btn-remove-flavor:hover { color: var(--red); }
-  .flavor-fields { display: flex; gap: 8px; flex-wrap: wrap; }
-  .flavor-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 90px; }
-  .flavor-field label { font-size: 0.68rem; color: var(--muted); }
-  .flavor-field input[type=number] { background: var(--card); border: 1px solid var(--border); border-radius: 7px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; padding: 6px 8px; outline: none; width: 100%; transition: border-color 0.2s; }
-  .flavor-field input[type=number]:focus { border-color: #8a50cc; }
-  .flavor-cost-tag { font-size: 0.72rem; color: #c8a0f0; margin-top: 8px; text-align: right; }
-  .flavor-empty { font-size: 0.8rem; color: var(--muted); text-align: center; padding: 16px 0 8px; font-style: italic; }
-  .preset-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-  .preset-chip { background: var(--card2); border: 1px dashed #5a3a80; border-radius: 20px; padding: 4px 10px; font-size: 0.72rem; color: #c8a0f0; cursor: pointer; transition: all 0.15s; }
-  .preset-chip:hover { background: #3a2050; border-style: solid; }
-  .flavor-section-note { font-size: 0.72rem; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
-  .flavor-addon-badge { display: inline-block; background: #3a1f5a; border: 1px solid #6a3a9a; border-radius: 6px; padding: 2px 8px; font-size: 0.72rem; color: #c8a0f0; margin-left: 8px; vertical-align: middle; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-3px); } to { opacity:1; transform:none; } }
+  .row.flavor-row { animation: fadeIn 0.18s ease; }
 </style>
 </head>
 <body>
 
 <h1>☕ Coffee Pricing</h1>
-<p class="subtitle">Base ingredients + flavor add-ons</p>
+<p class="subtitle">Adjust ingredients, add flavors, see your price.</p>
 
 <div class="tab-row">
   <button class="tab active" onclick="setSize('hot',event)">Hot (8–10 oz)</button>
   <button class="tab" onclick="setSize('iced',event)">Iced (12–16 oz)</button>
 </div>
 
+<!-- BASE INGREDIENT PRICES -->
 <div class="card">
-  <div class="section-label">Base Ingredient Prices (₱)</div>
+  <div class="section-label">Ingredient Prices (₱)</div>
+
+  <!-- Base fixed rows -->
   <div class="row"><label>Beans /500g</label><input type="range" id="beanPrice" min="300" max="600" value="380" oninput="update()"><span class="val" id="beanPriceVal">₱380</span></div>
   <div class="row"><label>Milk /1L</label><input type="range" id="milkPrice" min="60" max="150" value="90" oninput="update()"><span class="val" id="milkPriceVal">₱90</span></div>
-  <div class="row"><label>Syrup /2L</label><input type="range" id="syrupPrice" min="120" max="300" value="172" oninput="update()"><span class="val" id="syrupPriceVal">₱172</span></div>
+  <div class="row"><label>Sugar Syrup /2L</label><input type="range" id="syrupPrice" min="120" max="300" value="172" oninput="update()"><span class="val" id="syrupPriceVal">₱172</span></div>
   <div class="row"><label>Packaging</label><input type="range" id="packPrice" min="5" max="16" value="6" oninput="update()"><span class="val" id="packPriceVal">₱6</span></div>
+
+  <div class="divider"></div>
+
+  <!-- Dynamic flavor price rows -->
+  <div id="flavorPriceRows"></div>
+
+  <button class="btn-add-inline" onclick="addFlavor()">+ Add Flavor</button>
+  <div class="preset-row" id="pricePresets">
+    <span class="preset-chip" onclick="addPreset('Hazelnut Syrup',750,1000,15)">Hazelnut</span>
+    <span class="preset-chip" onclick="addPreset('Vanilla Syrup',650,750,15)">Vanilla</span>
+    <span class="preset-chip" onclick="addPreset('Caramel Sauce',280,500,10)">Caramel</span>
+    <span class="preset-chip" onclick="addPreset('Choco Sauce',320,600,15)">Chocolate</span>
+    <span class="preset-chip" onclick="addPreset('Brown Sugar Syrup',200,500,20)">Brown Sugar</span>
+    <span class="preset-chip" onclick="addPreset('Matcha Powder',450,100,5)">Matcha</span>
+    <span class="preset-chip" onclick="addPreset('Taro Powder',380,100,8)">Taro</span>
+    <span class="preset-chip" onclick="addPreset('Coconut Syrup',320,750,15)">Coconut</span>
+    <span class="preset-chip" onclick="addPreset('Lavender Syrup',580,750,12)">Lavender</span>
+    <span class="preset-chip" onclick="addPreset('Strawberry Syrup',290,750,15)">Strawberry</span>
+  </div>
 </div>
 
+<!-- PER SERVING USAGE -->
 <div class="card">
   <div class="section-label">Per Serving Usage</div>
+
   <div class="row"><label>Beans (g)</label><input type="range" id="beansG" min="10" max="40" value="20" oninput="update()"><span class="val" id="beansGVal">20g</span></div>
   <div class="row"><label>Milk (ml)</label><input type="range" id="milkMl" min="80" max="300" value="150" oninput="update()"><span class="val" id="milkMlVal">150ml</span></div>
-  <div class="row"><label>Syrup (ml)</label><input type="range" id="syrupMl" min="10" max="60" value="20" oninput="update()"><span class="val" id="syrupMlVal">20ml</span></div>
+  <div class="row"><label>Sugar Syrup (ml)</label><input type="range" id="syrupMl" min="10" max="60" value="20" oninput="update()"><span class="val" id="syrupMlVal">20ml</span></div>
+
+  <div class="divider"></div>
+
+  <!-- Dynamic flavor serving rows -->
+  <div id="flavorServingRows"></div>
 </div>
 
+<!-- COST BREAKDOWN -->
 <div class="card">
-  <div class="flavors-header">
-    <div class="section-label" style="margin-bottom:0">Flavor Add-ons</div>
-    <button class="btn-add-flavor" onclick="addFlavor()">+ Add Flavor</button>
-  </div>
-  <p class="flavor-section-note">Add syrups, sauces, or powders you plan to offer. Toggle them on/off to see how they affect the price per cup.</p>
-  <div class="preset-row">
-    <span class="preset-chip" onclick="addPreset('Hazelnut Syrup',750,1000,15)">+ Hazelnut Syrup</span>
-    <span class="preset-chip" onclick="addPreset('Vanilla Syrup',650,750,15)">+ Vanilla Syrup</span>
-    <span class="preset-chip" onclick="addPreset('Caramel Sauce',280,500,10)">+ Caramel Sauce</span>
-    <span class="preset-chip" onclick="addPreset('Chocolate Sauce',320,600,15)">+ Choco Sauce</span>
-    <span class="preset-chip" onclick="addPreset('Brown Sugar Syrup',200,500,20)">+ Brown Sugar</span>
-    <span class="preset-chip" onclick="addPreset('Matcha Powder',450,100,5)">+ Matcha</span>
-    <span class="preset-chip" onclick="addPreset('Taro Powder',380,100,8)">+ Taro</span>
-    <span class="preset-chip" onclick="addPreset('Coconut Syrup',320,750,15)">+ Coconut</span>
-    <span class="preset-chip" onclick="addPreset('Lavender Syrup',580,750,12)">+ Lavender</span>
-    <span class="preset-chip" onclick="addPreset('Strawberry Syrup',290,750,15)">+ Strawberry</span>
-  </div>
-  <div class="flavor-list" id="flavorList">
-    <div class="flavor-empty" id="flavorEmpty">No flavors added yet. Use the presets above or click "+ Add Flavor".</div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="section-label">Cost Breakdown <span class="flavor-addon-badge" id="flavorBadge" style="display:none">flavors active</span></div>
+  <div class="section-label">Cost Breakdown</div>
   <div class="cost-breakdown">
     <div class="cost-row"><span>Beans</span><span id="beanCost">—</span></div>
     <div class="cost-row"><span>Milk</span><span id="milkCost">—</span></div>
     <div class="cost-row"><span>Sugar Syrup</span><span id="syrupCost">—</span></div>
     <div class="cost-row"><span>Packaging</span><span id="packCost">—</span></div>
-    <div class="cost-row flavor-cost" id="flavorCostRow" style="display:none"><span id="flavorCostLabel">Flavor Add-ons</span><span id="flavorCostVal">—</span></div>
+    <div id="flavorCostRows"></div>
     <div class="cost-row total"><span>Total Cost / Cup</span><span id="totalCost">—</span></div>
   </div>
 </div>
 
+<!-- SUGGESTED PRICES -->
 <div class="section-label" style="margin-top:4px">Suggested Selling Price</div>
 <div class="price-band budget">
   <div class="pb-label">🟢 Budget-Friendly</div>
@@ -160,6 +181,7 @@
   <div class="pb-margin" id="recMargin">—</div>
 </div>
 
+<!-- AT A GLANCE -->
 <div class="card" style="margin-top:16px">
   <div class="section-label">At a Glance</div>
   <div class="results-grid">
@@ -171,90 +193,116 @@
 </div>
 
 <script>
-  let currentSize = 'hot';
   let flavors = [];
-  let flavorIdCounter = 0;
+  let fid = 0;
 
-  function addPreset(name, price, totalMl, mlPerServing) {
-    if (flavors.find(f => f.name.toLowerCase() === name.toLowerCase())) {
-      alert('"' + name + '" is already in your list!');
-      return;
-    }
-    flavors.push({ id: ++flavorIdCounter, name, price, totalMl, mlPerServing, active: true });
-    renderFlavors();
-    update();
+  const PRESETS = {
+    'Hazelnut Syrup':   { price: 750,  size: 1000, ml: 15 },
+    'Vanilla Syrup':    { price: 650,  size: 750,  ml: 15 },
+    'Caramel Sauce':    { price: 280,  size: 500,  ml: 10 },
+    'Choco Sauce':      { price: 320,  size: 600,  ml: 15 },
+    'Brown Sugar Syrup':{ price: 200,  size: 500,  ml: 20 },
+    'Matcha Powder':    { price: 450,  size: 100,  ml: 5  },
+    'Taro Powder':      { price: 380,  size: 100,  ml: 8  },
+    'Coconut Syrup':    { price: 320,  size: 750,  ml: 15 },
+    'Lavender Syrup':   { price: 580,  size: 750,  ml: 12 },
+    'Strawberry Syrup': { price: 290,  size: 750,  ml: 15 },
+  };
+
+  function addPreset(name, price, size, ml) {
+    if (flavors.find(f => f.name === name)) { alert('"' + name + '" is already added!'); return; }
+    flavors.push({ id: ++fid, name, price, size, ml });
+    renderFlavors(); update();
   }
 
   function addFlavor() {
-    flavors.push({ id: ++flavorIdCounter, name: '', price: 0, totalMl: 750, mlPerServing: 15, active: true });
-    renderFlavors();
-    update();
+    flavors.push({ id: ++fid, name: 'New Flavor', price: 0, size: 750, ml: 15 });
+    renderFlavors(); update();
     setTimeout(() => {
-      const inputs = document.querySelectorAll('.flavor-name-input');
-      if (inputs.length) inputs[inputs.length - 1].focus();
-    }, 50);
+      const inp = document.querySelector('#fp-name-' + fid);
+      if (inp) { inp.focus(); inp.select(); }
+    }, 60);
   }
 
   function removeFlavor(id) {
     flavors = flavors.filter(f => f.id !== id);
-    renderFlavors();
-    update();
+    renderFlavors(); update();
   }
 
-  function toggleFlavor(id) {
+  function setFlavorField(id, field, val) {
     const f = flavors.find(f => f.id === id);
-    if (f) f.active = !f.active;
-    renderFlavors();
-    update();
-  }
-
-  function updateFlavorField(id, field, value) {
-    const f = flavors.find(f => f.id === id);
-    if (f) {
-      f[field] = field === 'name' ? value : (parseFloat(value) || 0);
-      const tag = document.getElementById('fcost-' + id);
-      if (tag) {
-        const cost = f.totalMl > 0 ? (f.price / f.totalMl) * f.mlPerServing : 0;
-        tag.textContent = 'Cost per serving: ₱' + cost.toFixed(2);
-      }
-      update();
+    if (!f) return;
+    f[field] = field === 'name' ? val : (parseFloat(val) || 0);
+    // sync the serving slider label if price/size changed
+    if (field !== 'name' && field !== 'ml') {
+      const lbl = document.getElementById('fp-price-lbl-' + id);
+      if (lbl) lbl.textContent = field === 'price' ? '₱' + f.price : '';
     }
+    if (field === 'ml') {
+      const lbl = document.getElementById('fs-lbl-' + id);
+      if (lbl) lbl.textContent = f.ml + 'ml';
+    }
+    update();
   }
 
   function renderFlavors() {
-    const list = document.getElementById('flavorList');
-    const empty = document.getElementById('flavorEmpty');
-    if (flavors.length === 0) {
-      list.innerHTML = '';
-      list.appendChild(empty);
-      empty.style.display = 'block';
-      return;
-    }
-    empty.style.display = 'none';
-    list.innerHTML = '';
+    const priceContainer = document.getElementById('flavorPriceRows');
+    const servingContainer = document.getElementById('flavorServingRows');
+    priceContainer.innerHTML = '';
+    servingContainer.innerHTML = '';
+
     flavors.forEach(f => {
-      const cost = f.totalMl > 0 ? (f.price / f.totalMl) * f.mlPerServing : 0;
-      const div = document.createElement('div');
-      div.className = 'flavor-item' + (f.active ? '' : ' inactive');
-      div.id = 'flavor-' + f.id;
-      div.innerHTML =
-        '<div class="flavor-top">' +
-          '<button class="flavor-toggle ' + (f.active ? 'on' : '') + '" onclick="toggleFlavor(' + f.id + ')" title="Toggle on/off"></button>' +
-          '<input class="flavor-name-input" type="text" placeholder="Flavor name (e.g. Hazelnut Syrup)" value="' + f.name.replace(/"/g,'&quot;') + '" oninput="updateFlavorField(' + f.id + ',\'name\',this.value)" />' +
-          '<button class="btn-remove-flavor" onclick="removeFlavor(' + f.id + ')" title="Remove">✕</button>' +
-        '</div>' +
-        '<div class="flavor-fields">' +
-          '<div class="flavor-field"><label>Bottle Price (₱)</label><input type="number" min="0" value="' + f.price + '" oninput="updateFlavorField(' + f.id + ',\'price\',this.value)" /></div>' +
-          '<div class="flavor-field"><label>Bottle Size (ml/g)</label><input type="number" min="1" value="' + f.totalMl + '" oninput="updateFlavorField(' + f.id + ',\'totalMl\',this.value)" /></div>' +
-          '<div class="flavor-field"><label>Per Serving (ml/g)</label><input type="number" min="0" value="' + f.mlPerServing + '" oninput="updateFlavorField(' + f.id + ',\'mlPerServing\',this.value)" /></div>' +
-        '</div>' +
-        '<div class="flavor-cost-tag" id="fcost-' + f.id + '">Cost per serving: ₱' + cost.toFixed(2) + '</div>';
-      list.appendChild(div);
+      // ── Price card row ──
+      const pr = document.createElement('div');
+      pr.className = 'row flavor-row';
+      pr.id = 'fpr-' + f.id;
+      pr.innerHTML =
+        '<label>' +
+          '<input id="fp-name-' + f.id + '" type="text" value="' + f.name.replace(/"/g,'&quot;') +
+          '" oninput="setFlavorField(' + f.id + ',\'name\',this.value)" ' +
+          'style="background:transparent;border:none;border-bottom:1px solid var(--purple-border);color:#c8a0f0;font-size:0.78rem;width:110px;outline:none;font-family:inherit;" />' +
+        '</label>' +
+        '<input type="range" min="0" max="2000" step="10" value="' + f.price + '" ' +
+          'oninput="setFlavorField(' + f.id + ',\'price\',this.value);document.getElementById(\'fp-price-lbl-' + f.id + '\').textContent=\'₱\'+this.value" ' +
+          'style="accent-color:var(--purple)">' +
+        '<span class="val" id="fp-price-lbl-' + f.id + '" style="color:#c8a0f0">₱' + f.price + '</span>' +
+        '<button class="btn-remove-row" onclick="removeFlavor(' + f.id + ')" title="Remove">✕</button>';
+      priceContainer.appendChild(pr);
+
+      // bottle size note below price row
+      const note = document.createElement('div');
+      note.style.cssText = 'font-size:0.68rem;color:var(--muted);padding:0 0 8px 120px;display:flex;align-items:center;gap:6px;';
+      note.innerHTML =
+        'Bottle size: <input type="number" min="1" value="' + f.size +
+        '" oninput="setFlavorField(' + f.id + ',\'size\',this.value)" ' +
+        'style="background:var(--card2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-family:inherit;font-size:0.7rem;padding:2px 5px;width:60px;outline:none;" />' +
+        '<span style="color:var(--muted)">ml / g</span>';
+      priceContainer.appendChild(note);
+
+      // ── Serving usage row ──
+      const sr = document.createElement('div');
+      sr.className = 'row flavor-row';
+      sr.id = 'fsr-' + f.id;
+      sr.innerHTML =
+        '<label id="fs-name-' + f.id + '" style="color:#c8a0f0;font-size:0.78rem;">' + f.name + '</label>' +
+        '<input type="range" min="0" max="60" step="1" value="' + f.ml + '" ' +
+          'oninput="setFlavorField(' + f.id + ',\'ml\',this.value);document.getElementById(\'fs-lbl-' + f.id + '\').textContent=this.value+\'ml\'" ' +
+          'style="accent-color:var(--purple)">' +
+        '<span class="val" id="fs-lbl-' + f.id + '" style="color:#c8a0f0">' + f.ml + 'ml</span>';
+      servingContainer.appendChild(sr);
+    });
+
+    // keep name labels in sync when name input changes
+    flavors.forEach(f => {
+      const nameInp = document.getElementById('fp-name-' + f.id);
+      const nameLabel = document.getElementById('fs-name-' + f.id);
+      if (nameInp && nameLabel) {
+        nameInp.addEventListener('input', () => { nameLabel.textContent = nameInp.value || 'Flavor'; });
+      }
     });
   }
 
   function setSize(size, e) {
-    currentSize = size;
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     if (e && e.target) e.target.classList.add('active');
     if (size === 'iced') {
@@ -275,61 +323,58 @@
   function roundToFive(n) { return Math.ceil(n / 5) * 5; }
 
   function update() {
-    const beanPrice = r('beanPrice'), milkPrice = r('milkPrice'), syrupPrice = r('syrupPrice'), packPrice = r('packPrice');
+    const beanPrice = r('beanPrice'), milkPrice = r('milkPrice');
+    const syrupPrice = r('syrupPrice'), packPrice = r('packPrice');
     const beansG = r('beansG'), milkMl = r('milkMl'), syrupMl = r('syrupMl');
 
-    document.getElementById('beanPriceVal').textContent = '₱' + beanPrice;
-    document.getElementById('milkPriceVal').textContent = '₱' + milkPrice;
+    document.getElementById('beanPriceVal').textContent  = '₱' + beanPrice;
+    document.getElementById('milkPriceVal').textContent  = '₱' + milkPrice;
     document.getElementById('syrupPriceVal').textContent = '₱' + syrupPrice;
-    document.getElementById('packPriceVal').textContent = '₱' + packPrice;
-    document.getElementById('beansGVal').textContent = beansG + 'g';
-    document.getElementById('milkMlVal').textContent = milkMl + 'ml';
+    document.getElementById('packPriceVal').textContent  = '₱' + packPrice;
+    document.getElementById('beansGVal').textContent  = beansG + 'g';
+    document.getElementById('milkMlVal').textContent  = milkMl + 'ml';
     document.getElementById('syrupMlVal').textContent = syrupMl + 'ml';
 
-    const beanCost = (beanPrice / 500) * beansG;
-    const milkCost = (milkPrice / 1000) * milkMl;
+    const beanCost  = (beanPrice / 500) * beansG;
+    const milkCost  = (milkPrice / 1000) * milkMl;
     const syrupCost = (syrupPrice / 2000) * syrupMl;
 
-    const activeFlavors = flavors.filter(f => f.active && f.price > 0 && f.totalMl > 0);
-    const flavorTotal = activeFlavors.reduce((sum, f) => sum + (f.price / f.totalMl) * f.mlPerServing, 0);
-    const flavorNames = activeFlavors.map(f => f.name || 'Unnamed').join(', ');
-    const total = beanCost + milkCost + syrupCost + packPrice + flavorTotal;
-
-    document.getElementById('beanCost').textContent = peso(beanCost);
-    document.getElementById('milkCost').textContent = peso(milkCost);
+    document.getElementById('beanCost').textContent  = peso(beanCost);
+    document.getElementById('milkCost').textContent  = peso(milkCost);
     document.getElementById('syrupCost').textContent = peso(syrupCost);
-    document.getElementById('packCost').textContent = peso(packPrice);
+    document.getElementById('packCost').textContent  = peso(packPrice);
 
-    const flavorRow = document.getElementById('flavorCostRow');
-    const flavorBadge = document.getElementById('flavorBadge');
-    if (activeFlavors.length > 0) {
-      flavorRow.style.display = 'flex';
-      flavorBadge.style.display = 'inline-block';
-      const label = flavorNames.length > 30 ? flavorNames.substring(0, 28) + '…' : (flavorNames || 'Flavor Add-ons');
-      document.getElementById('flavorCostLabel').textContent = label;
-      document.getElementById('flavorCostVal').textContent = peso(flavorTotal);
-    } else {
-      flavorRow.style.display = 'none';
-      flavorBadge.style.display = 'none';
-    }
+    // Flavor costs
+    const fcr = document.getElementById('flavorCostRows');
+    fcr.innerHTML = '';
+    let flavorTotal = 0;
+    flavors.forEach(f => {
+      const fc = f.size > 0 ? (f.price / f.size) * f.ml : 0;
+      flavorTotal += fc;
+      const row = document.createElement('div');
+      row.className = 'cost-row flavor-cost';
+      row.innerHTML = '<span>' + (f.name || 'Flavor') + '</span><span>' + peso(fc) + '</span>';
+      fcr.appendChild(row);
+    });
 
+    const total = beanCost + milkCost + syrupCost + packPrice + flavorTotal;
     document.getElementById('totalCost').textContent = peso(total);
 
-    const budgetPrice = roundToFive(total * 1.5);
-    const recPrice = roundToFive(total * 2.1);
-    const budgetProfit = budgetPrice - total;
-    const recProfit = recPrice - total;
-    const budgetMarkupPct = ((budgetPrice - total) / total * 100).toFixed(0);
-    const recMarkupPct = ((recPrice - total) / total * 100).toFixed(0);
+    const budgetPrice    = roundToFive(total * 1.5);
+    const recPrice       = roundToFive(total * 2.1);
+    const budgetProfit   = budgetPrice - total;
+    const recProfit      = recPrice - total;
+    const budgetMarkupPct = ((budgetProfit / total) * 100).toFixed(0);
+    const recMarkupPct    = ((recProfit / total) * 100).toFixed(0);
 
-    document.getElementById('budgetPrice').textContent = pesoR(budgetPrice);
-    document.getElementById('recPrice').textContent = pesoR(recPrice);
+    document.getElementById('budgetPrice').textContent  = pesoR(budgetPrice);
+    document.getElementById('recPrice').textContent     = pesoR(recPrice);
     document.getElementById('budgetMargin').textContent = 'Profit: ' + peso(budgetProfit) + ' per cup (' + budgetMarkupPct + '% markup)';
-    document.getElementById('recMargin').textContent = 'Profit: ' + peso(recProfit) + ' per cup (' + recMarkupPct + '% markup)';
+    document.getElementById('recMargin').textContent    = 'Profit: ' + peso(recProfit) + ' per cup (' + recMarkupPct + '% markup)';
     document.getElementById('budgetMarkup').textContent = budgetMarkupPct + '%';
-    document.getElementById('recMarkup').textContent = recMarkupPct + '%';
+    document.getElementById('recMarkup').textContent    = recMarkupPct + '%';
     document.getElementById('budgetProfit').textContent = peso(budgetProfit);
-    document.getElementById('recProfit').textContent = peso(recProfit);
+    document.getElementById('recProfit').textContent    = peso(recProfit);
   }
 
   update();
